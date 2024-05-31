@@ -2,6 +2,13 @@
 
 <p>This is the README file for the Bank API project. This project is built using Django and Django REST Framework. It provides endpoints for managing banks and their branches.</p>
 
+<h1>I hosted my project in this domain:<br>
+https://ancient-refuge-94659-ccca1d17e382.herokuapp.com/<br>
+
+It took me two days to complete the project <br>
+
+</h1>
+
 <h2>Table of Contents</h2>
 
 <ul>
