@@ -1,32 +1,19 @@
-name: Weekly Tagging
+- name: Checkout dev branch
+  uses: actions/checkout@v4
+  with:
+    ref: dev
+    token: ${{ secrets.GITHUB_TOKEN }}
+    fetch-depth: 0
 
-on:
-  schedule:
-    - cron: "*/1 * * * *"   # ⏱ every 1 minute (for testing only)
-  workflow_dispatch:         # manual run button
+- name: Set up Git
+  run: |
+    git config user.name "github-actions"
+    git config user.email "actions@github.com"
 
-jobs:
-  weekly-tag:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write  
-
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}  
-          fetch-depth: 0                       
-
-      - name: Set up Git
-        run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-
-      - name: Create weekly tag and commit
-        run: |
-          TAG="weekly-$(date +%Y-%m-%d-%H-%M)"
-          git commit --allow-empty -m "Weekly tagging update [$TAG]"
-          git push origin HEAD:main           
-          git tag "$TAG"
-          git push origin "$TAG"
+- name: Create weekly tag and commit
+  run: |
+    TAG="weekly-$(date +%Y-%m-%d-%H-%M)"
+    git commit --allow-empty -m "Weekly tagging update [$TAG]"
+    git push origin HEAD:main      # 👈 take commit from dev and push to main
+    git tag "$TAG"
+    git push origin "$TAG"
