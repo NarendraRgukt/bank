@@ -8,9 +8,15 @@ on:
 jobs:
   weekly-tag:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}  
+          fetch-depth: 0                       
 
       - name: Set up Git
         run: |
@@ -21,6 +27,6 @@ jobs:
         run: |
           TAG="weekly-$(date +%Y-%m-%d-%H-%M)"
           git commit --allow-empty -m "Weekly tagging update [$TAG]"
-          git push origin main
+          git push origin HEAD:main           
           git tag "$TAG"
           git push origin "$TAG"
